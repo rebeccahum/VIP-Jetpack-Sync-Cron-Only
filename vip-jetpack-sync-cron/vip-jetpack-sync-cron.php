@@ -26,7 +26,8 @@ class VIP_Jetpack_Cron_Sync {
 		}
 		
 		add_filter( 'cron_schedules', [ $this, 'jp_sync_cron_schedule_interval' ] );
-		add_filter( 'jetpack_sync_incremental_sync_interval', [ $this, 'filter_jetpack_sync_interval' ], 999 );		
+		add_filter( 'jetpack_sync_incremental_sync_interval', [ $this, 'filter_jetpack_sync_interval' ], 999 );
+		add_filter( 'jetpack_sync_full_sync_interval', [ $this, 'filter_jetpack_sync_interval' ], 999 );		
 		add_filter( 'jetpack_sync_sender_should_load', [ 'Jetpack_Sync_Settings', 'is_doing_cron' ], 999 ); // Short circuit loading of Jetpack sender to sync only on cron.
 	}
 
