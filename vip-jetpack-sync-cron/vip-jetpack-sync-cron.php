@@ -7,9 +7,9 @@ Version: 2.0
 Author: Rebecca Hum, Automattic 
 */
 
-class VIP_Jetpack_Cron_Sync {
+class VIP_Jetpack_Sync_Cron {
 
-	const CRON_SYNC_INTERVAL_NAME = 'vip_jp_sync_cron_interval';
+	const SYNC_INTERVAL_NAME = 'vip_jp_sync_cron_interval';
 
 	/**
 	 * __construct()
@@ -37,7 +37,7 @@ class VIP_Jetpack_Cron_Sync {
 	 * @param array  $schedules
 	 */
 	function jp_sync_cron_schedule_interval( $schedules ) {
-		$schedules[ self::CRON_SYNC_INTERVAL_NAME ] = [
+		$schedules[ self::SYNC_INTERVAL_NAME ] = [
 		    'interval' => 60,
 		    'display'  => esc_html__( 'Every minute' ),
 		];
@@ -51,8 +51,8 @@ class VIP_Jetpack_Cron_Sync {
 	 * @param string  $incremental_sync_cron_schedule
 	 */
 	public function filter_jetpack_sync_interval() {
-		return self::CRON_SYNC_INTERVAL_NAME;
+		return self::SYNC_INTERVAL_NAME;
 	}
 }	
 
-$vip_jetpack_cron_sync = new VIP_Jetpack_Cron_Sync();
+$vip_jetpack_sync_cron = new VIP_Jetpack_Sync_Cron();
