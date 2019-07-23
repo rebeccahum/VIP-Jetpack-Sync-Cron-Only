@@ -7,6 +7,8 @@ Version: 2.0
 Author: Rebecca Hum, Automattic 
 */
 
+use Automattic\Jetpack\Sync\Actions;
+
 class VIP_Jetpack_Sync_Cron {
 
 	const SYNC_INTERVAL_NAME = 'vip_jp_sync_cron_interval';
@@ -21,7 +23,7 @@ class VIP_Jetpack_Sync_Cron {
 			return;
 		}
 
-		if ( ! Jetpack_Sync_Actions::sync_via_cron_allowed() ) { // Bail if no syncing via cron allowed.
+		if ( ! Actions::sync_via_cron_allowed() ) { // Bail if no syncing via cron allowed.
 			return;
 		}
 		
