@@ -9,16 +9,20 @@ Author: Rebecca Hum, Automattic
 
 use Automattic\Jetpack\Sync\Actions;
 
+if ( class_exists( 'VIP_Jetpack_Sync_Cron' ) ) {
+	return;
+}
+
 class VIP_Jetpack_Sync_Cron {
 
 	const SYNC_INTERVAL_NAME = 'vip_jp_sync_cron_interval';
 
 	/**
-	 * __construct()
+	 * Initiate an instance of this class if one doesn't exist already.
 	 * 
-	 * @return void
+	 * @return VIP_Jetpack_Sync_Cron instance
 	 */
-	function __construct() {
+	static public function init() {
 		if ( ! class_exists( 'Jetpack' ) ) { // Bail if no Jetpack.
 			return;
 		}
@@ -26,7 +30,22 @@ class VIP_Jetpack_Sync_Cron {
 		if ( ! Actions::sync_via_cron_allowed() ) { // Bail if no syncing via cron allowed.
 			return;
 		}
-		
+
+		static $instance = false;
+
+		if ( ! $instance ) {
+			$instance = new VIP_Jetpack_Sync_Cron;
+		}
+
+		return $instance;
+	}
+
+	/**
+	 * Class constructor for hooking actions/filters.
+	 * 
+	 * @return void
+	 */
+	public function __construct() {
 		add_filter( 'cron_schedules', [ $this, 'jp_sync_cron_schedule_interval' ] );
 		add_filter( 'jetpack_sync_incremental_sync_interval', [ $this, 'filter_jetpack_sync_interval' ], 999 );
 		add_filter( 'jetpack_sync_full_sync_interval', [ $this, 'filter_jetpack_sync_interval' ], 999 );
@@ -38,7 +57,7 @@ class VIP_Jetpack_Sync_Cron {
 	 * 
 	 * @param array  $schedules
 	 */
-	function jp_sync_cron_schedule_interval( $schedules ) {
+	public function jp_sync_cron_schedule_interval( $schedules ) {
 		$schedules[ self::SYNC_INTERVAL_NAME ] = [
 		    'interval' => 60,
 		    'display'  => esc_html__( 'Every minute' ),
@@ -55,6 +74,6 @@ class VIP_Jetpack_Sync_Cron {
 	public function filter_jetpack_sync_interval() {
 		return self::SYNC_INTERVAL_NAME;
 	}
-}	
+}
 
-$vip_jetpack_sync_cron = new VIP_Jetpack_Sync_Cron();
+add_action( 'after_setup_theme', [ 'VIP_Jetpack_Sync_Cron', 'init' ] );
