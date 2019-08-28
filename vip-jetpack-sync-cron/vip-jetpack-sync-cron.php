@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 /*
 Plugin Name: VIP Jetpack Sync Cron
-Description: This drop-in plugin ensures that Jetpack only syncs on the dedicated cron task.
+Description: This plugin ensures that Jetpack only syncs on the dedicated cron task.
 Version: 2.0
-Author: Rebecca Hum, Automattic 
+Author: Rebecca Hum, Automattic
 */
 
 use Automattic\Jetpack\Sync\Actions;
@@ -19,7 +19,7 @@ class VIP_Jetpack_Sync_Cron {
 
 	/**
 	 * Initiate an instance of this class if one doesn't exist already.
-	 * 
+	 *
 	 * @return VIP_Jetpack_Sync_Cron instance
 	 */
 	static public function init() {
@@ -42,7 +42,7 @@ class VIP_Jetpack_Sync_Cron {
 
 	/**
 	 * Class constructor for hooking actions/filters.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -54,7 +54,7 @@ class VIP_Jetpack_Sync_Cron {
 
 	/**
 	 * Filter to add custom interval to schedule.
-	 * 
+	 *
 	 * @param array  $schedules
 	 */
 	public function jp_sync_cron_schedule_interval( $schedules ) {
@@ -62,13 +62,13 @@ class VIP_Jetpack_Sync_Cron {
 		    'interval' => 60,
 		    'display'  => esc_html__( 'Every minute' ),
 		];
-		
+
 		return $schedules;
 	}
 
 	/**
 	 * Filter to return custom cron interval name.
-	 * 
+	 *
 	 * @param string  $incremental_sync_cron_schedule
 	 */
 	public function filter_jetpack_sync_interval() {
